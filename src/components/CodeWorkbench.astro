@@ -1,0 +1,69 @@
+---
+import { Code } from "astro:components";
+const wistCode = [
+  "using UniversalToolchain.Wist;",
+  "",
+  "using var wist = WistEngine.CreateRestrictedArithmetic();",
+  "",
+  "var formula = wist.Compile<Func<double, double, double>>(",
+  "    \"price * 0.9 + fee\",",
+  "    \"price\",",
+  "    \"fee\");",
+  "",
+  "double result = formula.CompiledDelegate(100.0, 5.0);",
+  "Console.WriteLine(result); // 95"
+].join("\n");
+const sdkCode = [
+  "// Excerpt from samples/Acme.PricingLanguage/Program.cs",
+  "var interpreter = new BackendId(\"interpreter\");",
+  "var compiled = new BackendId(\"compiled\");",
+  "var syntax = new LanguageArtifactKind<PricingExpression>(\"acme.pricing.syntax\");",
+  "var executable = new LanguageArtifactKind<Func<decimal>>(",
+  "    \"acme.pricing.executable\");",
+  "",
+  "// The languagePackage is registered above this excerpt.",
+  "var registry = new LanguagePackageRegistry().AddPackage(languagePackage);",
+  "var definition = LanguageDefinitionBuilder.Create(\"Acme.PricingLanguage\", \"1.0.0\")",
+  "    .UseFeature(\"acme.pricing.core\")",
+  "    .EnableBackend(interpreter)",
+  "    .EnableBackend(compiled)",
+  "    .UseRuntimeProvider(\"acme.pricing.runtime\", \"1.0.0\")",
+  "    .WithRuntimePolicy(new LanguageRuntimePolicy(",
+  "        RequireDeterminism: true, MaximumSourceLength: 256))",
+  "    .Build();",
+  "var plan = new LanguageCompiler(registry)",
+  "    .Compile(definition).GetRequiredPlan();"
+].join("\n");
+---
+<section class="section code-section" id="code" aria-labelledby="code-title">
+  <div class="page-container">
+    <div class="code-grid">
+      <div class="code-description">
+        <div class="eyebrow eyebrow-dark"><span class="section-index">04</span> &nbsp; / &nbsp; AN ACTUAL ENTRY POINT</div>
+        <h2 id="code-title">Less magic.<br/><em>More contracts.</em></h2>
+        <p>Start with a restricted formula or author an entirely different language. These examples come from UT's current documentation and repository — not an imagined browser compiler.</p>
+        <div class="source-note"><span class="source-symbol">↗</span> Confirmed against upstream <a href="https://github.com/Misha1302/UniversalToolchain/commit/5626a5e7fdd1c5d85158fab21752ef74c34926a3">5626a5e</a></div>
+      </div>
+      <div class="code-workbench" data-code-workbench>
+        <div class="code-toolbar">
+          <div class="code-tabs" role="tablist" aria-label="Source example">
+            <button class="is-selected" type="button" role="tab" id="tab-wist" aria-selected="true" aria-controls="code-wist" data-code-tab="wist">01 / WIST</button>
+            <button type="button" role="tab" id="tab-sdk" aria-selected="false" tabindex="-1" aria-controls="code-sdk" data-code-tab="sdk">02 / SDK</button>
+          </div>
+          <button class="copy-code" type="button" data-copy-code aria-label="Copy visible C sharp example"><span aria-hidden="true">⧉</span> <span data-copy-label>Copy</span></button>
+        </div>
+        <div class="code-panel" data-code-panel="wist" id="code-wist" role="tabpanel" aria-labelledby="tab-wist" tabindex="0">
+          <div class="code-file">Program.cs <span>Wist / restricted arithmetic</span></div>
+          <Code code={wistCode} lang="csharp" theme="github-dark" />
+          <div class="code-bottom"><span>01 / VALIDATE &amp; COMPILE</span><a href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/start/first-program.md" target="_blank" rel="noopener noreferrer">See source ↗</a></div>
+        </div>
+        <div class="code-panel" data-code-panel="sdk" id="code-sdk" role="tabpanel" aria-labelledby="tab-sdk" tabindex="0" hidden>
+          <div class="code-file">Program.cs <span>Acme / non-Wist language</span></div>
+          <Code code={sdkCode} lang="csharp" theme="github-dark" />
+          <div class="code-bottom"><span>02 / DEFINE &amp; PLAN</span><a href="https://github.com/Misha1302/UniversalToolchain/blob/master/samples/Acme.PricingLanguage/Program.cs" target="_blank" rel="noopener noreferrer">See full sample ↗</a></div>
+        </div>
+        <div class="code-toast" role="status" aria-live="polite" data-copy-status></div>
+      </div>
+    </div>
+  </div>
+</section>

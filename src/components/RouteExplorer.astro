@@ -1,0 +1,22 @@
+<div class="route-explorer" data-route-explorer>
+  <div class="route-head">
+    <span class="kicker">THE ROUTE / NOT EVERY LANGUAGE USES WIST IR</span>
+    <div class="route-switch" role="group" aria-label="Choose example language">
+      <button type="button" class="is-selected" data-route-switch="wist" aria-pressed="true">Wist</button>
+      <button type="button" data-route-switch="acme" aria-pressed="false">Acme / SDK</button>
+    </div>
+  </div>
+  <div class="route-content" data-route-panel="wist">
+    <div class="route-visual" aria-label="Wist reference-language route">
+      <span>Source</span><i>→</i><span>Syntax</span><i>→</i><span>Semantics</span><i>→</i><span>Bytecode</span><i>→</i><span>AIR</span><i>→</i><span class="route-selected">Interpreter / CIL</span>
+    </div>
+    <p>Wist's concrete reference pipeline. Its shared supported behavior is subject to interpreter/CIL parity tests — parity is not automatic for arbitrary extensions.</p>
+  </div>
+  <div class="route-content" data-route-panel="acme" hidden>
+    <div class="route-visual" aria-label="Acme pricing language typed routes">
+      <span>SourceText</span><i>→</i><span>PricingExpression</span><i>↗</i><span class="route-selected">Interpreter</span>
+      <span class="route-break" aria-hidden="true"></span><span>PricingExpression</span><i>→</i><span>Func&lt;decimal&gt;</span><i>→</i><span class="route-selected">Compiled</span>
+    </div>
+    <p>An independent language built with the generic SDK. Its own syntax and typed artifacts; no required Wist AST, Bytecode or AIR.</p>
+  </div>
+</div>

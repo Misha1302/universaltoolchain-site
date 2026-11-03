@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import HeroDiagram from "../components/HeroDiagram.astro";
+import CompositionLab from "../components/CompositionLab.astro";
+import RouteExplorer from "../components/RouteExplorer.astro";
+import CodeWorkbench from "../components/CodeWorkbench.astro";
+const source = "https://github.com/Misha1302/UniversalToolchain";
+const docs = "https://github.com/Misha1302/UniversalToolchain/tree/master/docs";
+---
+<BaseLayout>
+  <SiteHeader />
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="page-container">
+        <div class="hero-prelude"><span class="eyebrow">OPEN SOURCE <span class="hero-pip">✳</span> .NET LANGUAGE INFRASTRUCTURE</span><span class="hero-side-mark">FRAMEWORK / 001</span></div>
+        <div class="hero-copy">
+          <div class="hero-heading-wrap">
+            <h1 id="hero-title">Languages,<br/><span>composed.</span></h1>
+            <span class="hero-asterisk" aria-hidden="true">✳</span>
+          </div>
+          <div class="hero-intro">
+            <div class="hero-intro-line" aria-hidden="true"></div>
+            <div>
+              <p class="hero-lead">Build a language implementation from independent parts — not a fixed compiler pipeline.</p>
+              <p class="hero-support">UniversalToolchain composes package-owned .NET features, typed transformations and backends into one deterministic, immutable plan.</p>
+              <div class="hero-ctas">
+                <a class="button button-primary" href="#architecture">Explore the architecture <span aria-hidden="true">↗</span></a>
+                <a class="button button-text" href={source} target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <HeroDiagram />
+        <div class="hero-postlude"><span>DESIGNED FOR LANGUAGE AUTHORS / COMPILER BUILDERS / .NET DEVELOPERS</span><a href="#concept">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
+      </div>
+    </section>
+
+    <section class="section concept-section" id="concept" aria-labelledby="concept-title">
+      <div class="page-container">
+        <div class="section-eyebrow"><span class="eyebrow eyebrow-dark"><span class="section-index">01</span> &nbsp; / &nbsp; THE PROBLEM</span><span>WHY THIS FRAMEWORK EXISTS</span></div>
+        <div class="concept-main">
+          <h2 id="concept-title">A pipeline is easy<br/>to hardcode.<br/><em>An ecosystem isn't.</em></h2>
+          <div class="concept-intro">
+            <p>Most compilers know their parts at build time. That's often exactly right.</p>
+            <p>But when packages independently contribute language features, passes and execution paths, someone has to resolve their contracts, dependencies, ownership and order.</p>
+            <div class="concept-accent"><span class="concept-line" aria-hidden="true"></span> UT makes that decision explicit, inspectable and reproducible.</div>
+          </div>
+        </div>
+        <div class="concept-principles" aria-label="Why composition matters">
+          <div class="principle"><span>01 /</span><h3>Declare</h3><p>Features and contributions live with the packages that own them.</p></div>
+          <div class="principle"><span>02 /</span><h3>Resolve</h3><p>Typed routes, dependencies and conflicts meet a single planner.</p></div>
+          <div class="principle"><span>03 /</span><h3>Materialize</h3><p>The runtime binds the exact selected implementations, not a new guess.</p></div>
+        </div>
+        <p class="concept-footnote">If you only need a fixed parser and one backend, a handwritten pipeline is probably simpler. UT is for the composition problem.</p>
+      </div>
+    </section>
+
+    <CompositionLab />
+
+    <section class="section usecases-section" id="use-cases" aria-labelledby="paths-title">
+      <div class="page-container">
+        <div class="section-heading paths-heading">
+          <div><div class="eyebrow eyebrow-dark"><span class="section-index">03</span> &nbsp; / &nbsp; TWO WAYS IN</div><h2 id="paths-title">Start small.<br/><em>Go structural.</em></h2></div>
+          <p>UT is an infrastructure project, but it has two concrete entry points. Choose the one that fits what you're building.</p>
+        </div>
+        <div class="path-grid">
+          <article class="path-wist">
+            <div class="path-top"><span class="path-number">PATH 01 / WIST</span><span class="path-signature">f(x) → T</span></div>
+            <div class="wist-expression" aria-label="Example Wist formula">usage <span>*</span> 0.7 <span>+</span><br/> reliability <span>*</span> 0.3</div>
+            <div class="path-copy"><h3>Controlled formulas.<br/>Typed results.</h3><p>Wist is UT's reference language and the approachable .NET API. Validate restricted expressions, inspect diagnostics, compile approved formulas into typed delegates.</p></div>
+            <a class="path-link" href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/start/first-program.md" target="_blank" rel="noopener noreferrer">Try the Wist quickstart <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="path-sdk">
+            <div class="path-top"><span class="path-number">PATH 02 / AUTHORING SDK</span><span class="path-signature">A → B → C</span></div>
+            <div class="sdk-language-art" aria-hidden="true">
+              <div class="sdk-art-cell"><span>source</span><b>Text</b></div>
+              <div class="sdk-art-arrow">↗</div>
+              <div class="sdk-art-cell sdk-art-main"><span>your syntax</span><b>PricingExpr.</b></div>
+              <div class="sdk-art-arrow">↗</div>
+              <div class="sdk-art-cell"><span>executor</span><b>Backend</b></div>
+            </div>
+            <div class="path-copy"><h3>Your language.<br/>Your representations.</h3><p>The low-level alpha SDK lets independent packages define artifact types, transformations and backend executors. It does not require Wist's AST or IR.</p></div>
+            <a class="path-link" href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/language-authoring/quickstart.md" target="_blank" rel="noopener noreferrer">Explore language authoring <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <RouteExplorer />
+      </div>
+    </section>
+
+    <CodeWorkbench />
+
+    <section class="section contracts-section" id="principles" aria-labelledby="contracts-title">
+      <div class="page-container">
+        <div class="contracts-header"><div class="eyebrow"><span class="section-index">05</span> &nbsp; / &nbsp; DESIGN PRINCIPLES</div><h2 id="contracts-title">Built for composition.<br/><em>Not hidden coupling.</em></h2></div>
+        <div class="contract-row">
+          <span class="contract-no">[01]</span><h3>Typed boundaries</h3><p>Transformations advertise input and output artifact contracts. The planner can reject structurally incompatible routes before execution.</p><span class="contract-symbol" aria-hidden="true">A→B</span>
+        </div>
+        <div class="contract-row">
+          <span class="contract-no">[02]</span><h3>Deterministic planning</h3><p>Declared ownership, dependencies, pass ordering and route costs resolve to one repeatable language configuration — or explicit diagnostics.</p><span class="contract-symbol" aria-hidden="true">∴</span>
+        </div>
+        <div class="contract-row">
+          <span class="contract-no">[03]</span><h3>Exact materialization</h3><p>The runtime validates plan provenance and activates selected components, rather than inventing a second pipeline.</p><span class="contract-symbol" aria-hidden="true">⊟</span>
+        </div>
+        <div class="contract-row">
+          <span class="contract-no">[04]</span><h3>Backend-aware routes</h3><p>The interpreter and CIL paths are real in Wist. Generic authoring also supports its own executors; equivalence is a tested contract, not a universal guarantee.</p><span class="contract-symbol" aria-hidden="true">⥱</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section status-section" id="status" aria-labelledby="status-title">
+      <div class="page-container status-layout">
+        <div class="status-intro">
+          <div class="eyebrow eyebrow-dark"><span class="section-index">06</span> &nbsp; / &nbsp; CURRENT REALITY</div>
+          <h2 id="status-title">Early by design.<br/><em>Clear about it.</em></h2>
+          <p>UniversalToolchain is alpha software. The planner and runtime contracts are concrete; the higher-level authoring experience is still evolving.</p>
+          <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/limitations.md" target="_blank" rel="noopener noreferrer" class="status-link">Read known limitations <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="status-facts">
+          <div><span class="status-state"><i class="state-circle"></i> IMPLEMENTED</span><p>Package-owned contributions, typed routes, immutable plans, exact runtime selection, Wist interpreter/CIL.</p></div>
+          <div><span class="status-state"><i class="state-circle"></i> ALPHA SURFACE</span><p>External Language Authoring SDK, templates and current source Wist API. Public stable 1.0 guarantees are not offered.</p></div>
+          <div><span class="status-state status-research"><i class="state-circle"></i> RESEARCH / FUTURE</span><p>Richer grammar authoring, semantic evidence exchange and expanded backend validation remain directions, not shipped promises.</p></div>
+          <div class="status-warning"><span>IMPORTANT BOUNDARY ↗</span><p>Structural planning does not prove third-party optimizer correctness, security of hostile code, or universal backend parity.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section" aria-labelledby="closing-title">
+      <div class="page-container closing-layout">
+        <div class="closing-eye">UT / OPEN SOURCE / APACHE-2.0 <span>✳</span></div>
+        <h2 id="closing-title">Build languages<br/><em>out of parts.</em></h2>
+        <p>Explore the source, run Wist, or start authoring an independent language. The framework is being built in the open.</p>
+        <div class="closing-actions">
+          <a href={source} target="_blank" rel="noopener noreferrer" class="closing-main">Explore on GitHub <span aria-hidden="true">↗</span></a>
+          <a href={docs} target="_blank" rel="noopener noreferrer" class="closing-second">Read documentation <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="page-container footer-layout">
+      <div class="footer-brand"><span>UT<span class="footer-glyph">✳</span></span><p>A modular .NET compiler and runtime framework.</p></div>
+      <div class="footer-links">
+        <a href={source}>Repository ↗</a>
+        <a href={docs}>Documentation ↗</a>
+        <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/CONTRIBUTING.md">Contribute ↗</a>
+        <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/LICENSE">Apache-2.0 ↗</a>
+      </div>
+      <div class="footer-end">MADE TO BE COMPOSED. <span>© 2026 UT</span></div>
+    </div>
+  </footer>
+  <script>
+    import "../scripts/site.ts";
+  </script>
+</BaseLayout>
