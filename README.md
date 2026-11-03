@@ -36,3 +36,7 @@ Architecture and code examples were checked against UT upstream commit `5626a5e7
 Push to `main`; GitHub Actions validates, builds and deploys via the official Astro action. Pages source must be `GitHub Actions`. No secrets are used by the static site.
 
 UniversalToolchain upstream is Apache-2.0. Original website content is provided under Apache-2.0; fonts are licensed by their respective SIL Open Font Licenses.
+
+## Verify the published site
+
+After a Pages deploy, run `node scripts/live-audit.mjs` on Fedora with Chromium. It exercises all five production viewports, links, interactive diagrams, copy and keyboard menu, saves screenshot evidence, and writes `evidence/live-qa.json`. The public URL is configured in the script; adapt `executablePath` for other operating systems. The first release and production QA results are in `QA_REPORT.md`.

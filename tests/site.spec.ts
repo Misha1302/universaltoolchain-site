@@ -4,6 +4,7 @@ test("accurate first screen and working page anchors", async ({ page }) => {
   await page.goto("./");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Languages,composed\./);
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /og\.png$/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://misha1302.github.io/universaltoolchain-site/");
   await page.getByRole("link", { name: /Explore the architecture/i }).click();
   await expect(page).toHaveURL(/#architecture$/);
   await expect(page.getByRole("heading", { name: /One language/i })).toBeVisible();

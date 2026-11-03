@@ -5,7 +5,7 @@ import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
 const { title = "UniversalToolchain — Languages, composed.", description = "A modular .NET framework for composing language implementations from independently packaged features, typed transformations and deterministic plans." } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const canonical = new URL(base, Astro.site).href;
+const canonical = new URL(base.endsWith("/") ? base : base + "/", Astro.site).href;
 const social = new URL(base + "og.png", Astro.site).href;
 ---
 <!doctype html>
