@@ -3,69 +3,60 @@ import { mkdirSync, writeFileSync } from "node:fs";
 
 const site = "https://misha1302.github.io/universaltoolchain-site/";
 mkdirSync("evidence", { recursive: true });
-const browser = await chromium.launch({
-  executablePath: "/usr/bin/chromium-browser",
-  headless: true
-});
-const evidence = [];
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ?? "/usr/bin/chromium-browser";
+const browser = await chromium.launch({ executablePath, headless: true });
+const results = [];
 let defects = 0;
+
 for (const width of [320, 390, 768, 1440, 1920]) {
-  const height = width <= 390 ? 844 : 900;
-  const context = await browser.newContext({
-    viewport: { width, height },
-    deviceScaleFactor: 1,
-    permissions: ["clipboard-read", "clipboard-write"]
-  });
+  const height = width <= 390 ? 844 : width <= 768 ? 1024 : 900;
+  const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
   const page = await context.newPage();
   const errors = [];
-  const requests = [];
+  const badRequests = [];
+
   page.on("pageerror", error => errors.push(String(error)));
   page.on("console", message => {
     if (message.type() === "error") errors.push(message.text());
   });
-  page.on("requestfailed", request => requests.push(request.url()));
+  page.on("requestfailed", request => badRequests.push(request.url()));
   page.on("response", response => {
     if (response.url().startsWith(site) && response.status() >= 400)
-      requests.push(response.status() + " " + response.url());
+      badRequests.push(response.status() + " " + response.url());
   });
-  const response = await page.goto(site, { waitUntil: "networkidle", timeout: 45_000 });
+
+  const response = await page.goto(site, { waitUntil: "networkidle", timeout: 60_000 });
   const content = await page.evaluate(() => {
-    const allLinks = [...document.querySelectorAll("a[href]")];
-    const missingAnchors = allLinks.map(a => a.getAttribute("href")).filter(href => {
+    const localLinks = [...document.querySelectorAll("a[href]")];
+    const missingAnchors = localLinks.map(a => a.getAttribute("href")).filter(href => {
       if (!href) return false;
-      const url = new URL(href, location.href);
-      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return false;
-      return !document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      const u = new URL(href, location.href);
+      return u.origin === location.origin && u.pathname === location.pathname && u.hash
+        && !document.getElementById(decodeURIComponent(u.hash.slice(1)));
     });
     return {
       title: document.title,
-      width: document.documentElement.scrollWidth,
-      viewport: document.documentElement.clientWidth,
-      cssFiles: [...document.querySelectorAll("link[rel=stylesheet]")].length,
-      sourceLinks: allLinks.length,
-      missingAnchors,
-      heading: document.querySelector("h1")?.textContent?.trim() || ""
+      h1: document.querySelector("h1")?.innerText,
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+      ledger: document.querySelector(".hero-ledger")?.textContent?.includes("Acme.PricingLanguage"),
+      missingAnchors
     };
   });
-  if (width === 390 || width === 1440) {
-    await page.screenshot({ path: "evidence/live-full-" + width + ".png", fullPage: true });
-    await page.locator(".hero").screenshot({ path: "evidence/live-hero-" + width + ".png" });
-    await page.locator(".explorer").screenshot({ path: "evidence/live-architecture-" + width + ".png" });
-  } else {
-    await page.locator(".hero").screenshot({ path: "evidence/live-hero-" + width + ".png" });
-  }
-  const compiler = page.locator('[data-step-button="compiler"]');
-  await compiler.click();
-  const compilerActive = await compiler.getAttribute("aria-pressed");
-  await page.locator('[data-route-switch="acme"]').click();
-  const acmeShown = await page.locator('[data-route-panel="acme"]').isVisible();
-  await page.locator('[data-code-tab="sdk"]').click();
-  await page.locator("[data-copy-code]").click();
-  const copied = await page.evaluate(() => navigator.clipboard.readText());
+
+  await page.screenshot({ path: "evidence/planprint-live-hero-" + width + ".png" });
+  if (width === 390 || width === 1440)
+    await page.screenshot({ path: "evidence/planprint-live-full-" + width + ".png", fullPage: true });
+
+  const compiledRadio = page.locator('input[value="compiled"]');
+  await compiledRadio.check();
+  const compiledVisible = await page.locator(".route-compiled").isVisible();
+  const delegateMentioned = await page.locator("[data-route-summary]").innerText().then(s => s.includes("not Wist CIL"));
+
   let menuWorks = true;
-  if (width <= 830) {
-    const button = page.locator("[data-menu-toggle]");
-    await button.click();
+  if (width <= 840) {
+    const toggle = page.locator("[data-menu-toggle]");
+    await toggle.click();
     menuWorks = await page.locator("[data-mobile-nav]").isVisible();
     await page.keyboard.press("Escape");
     menuWorks = menuWorks && !(await page.locator("[data-mobile-nav]").isVisible());
@@ -74,28 +65,28 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     width,
     http: response?.status(),
     ...content,
-    compilerActive,
-    acmeShown,
-    copiedSDK: copied.includes("LanguageDefinitionBuilder"),
+    compiledVisible,
+    delegateMentioned,
     menuWorks,
-    requests,
-    errors
+    errors,
+    badRequests
   };
-  evidence.push(record);
-  const pass =
-    record.http === 200 &&
-    record.width <= record.viewport + 1 &&
-    record.compilerActive === "true" &&
-    record.acmeShown &&
-    record.copiedSDK &&
-    record.menuWorks &&
-    record.missingAnchors.length === 0 &&
-    record.errors.length === 0 &&
-    record.requests.length === 0;
-  if (!pass) defects++;
-  console.log("PUBLIC_QA", JSON.stringify({ pass, ...record }));
+  const pass = record.http === 200 && record.documentWidth <= record.viewportWidth + 1
+    && record.ledger && record.compiledVisible && record.delegateMentioned
+    && record.menuWorks && record.missingAnchors.length === 0
+    && record.errors.length === 0 && record.badRequests.length === 0;
+  results.push({ pass, ...record });
+  if (!pass) defects += 1;
+  console.log("PLANPRINT_PUBLIC_QA", JSON.stringify({ pass, ...record }));
   await context.close();
 }
-writeFileSync("evidence/live-qa.json", JSON.stringify({ url: site, failed: defects, viewports: evidence }, null, 2) + "\n");
+
 await browser.close();
+writeFileSync("evidence/planprint-live-qa.json", JSON.stringify({
+  url: site,
+  executedAt: new Date().toISOString(),
+  failed: defects,
+  viewports: results
+}, null, 2) + "\n");
+
 if (defects) process.exitCode = 1;

@@ -1,38 +1,22 @@
-# Source-based editorial research
+# Planprint — source and product decisions
 
-**Upstream:** `Misha1302/UniversalToolchain` at `5626a5e7fdd1c5d85158fab21752ef74c34926a3` (master, 2026-11-01).
+**Source revision:** \`Misha1302/UniversalToolchain@f362649872ca70cb924d5233eb965e3a71602015\` (4 Nov 2026).
 
-## Verified claims / evidence
+**Prior direction:** the original website used a dark “engineering atlas” with a lime-highlighted composition schematic. The November 4 research found that while technically structured, it did not foreground a real independently authored language and its selected typed routes clearly enough.
 
-| Website message | Source |
-| --- | --- |
-| Package-owned features, typed artifacts, deterministic planning, exact runtime | `readme.md`, `docs/CURRENT_ARCHITECTURE_STATUS.md` |
-| LanguageDefinition → LanguageCompiler → immutable LanguagePlan → LanguageRuntime is configuration-time | `docs/start/mental-model.md`, `docs/start/what-is-universal-toolchain.md` |
-| Wist formula `Compile<Func<...>>` with restricted arithmetic | `docs/start/first-program.md`, `readme.md` |
-| External non-Wist Acme sample with own syntax types and routes | `samples/Acme.PricingLanguage/Program.cs`, `docs/language-authoring/quickstart.md` |
-| Wist interpreter/CIL parity as contract for shared behavior | `docs/architecture/backends-and-parity.md` |
-| Alpha, no hardened sandbox, no automatic optimizer correctness | `docs/limitations.md`, `docs/CURRENT_ARCHITECTURE_STATUS.md` |
-| Apache-2.0 license | `LICENSE` |
+**Chosen direction:** Planprint / The Build Ledger. An asymmetric editorial composition makes the architectural decision itself the central graphic: accepted type path, source provenance, and backend-specific terminal contracts. Competing directions — topology-as-constellation and interactive compiler toolbench — were rejected because they offered weaker truth cues or risked implying actual browser compiler execution.
 
-## Editorial guardrails
+**Technical boundaries:** the Acme example uses its own \`PricingExpression\`; its “compiled” backend is a delegate, not Wist CIL. LanguageCompiler composes a language implementation at configuration time; LanguageRuntime binds exact selected implementations. A successful plan resolves structure only, not arbitrary semantics, sandboxing or backend parity.
 
-- Wist is the reference language; generic SDK **does not require** Wist Bytecode/AIR.
-- SDK is low-level alpha, no turnkey high-level grammar constructor.
-- No benchmark speedup, customer logos, adoption counts, security guarantees or invented future APIs.
-- Planning catches structural conflicts, **does not prove semantic correctness**.
-- Site interactive demos explain architecture only; the website runs no UT compiler.
-- NuGet published Wist package is `0.1.0-alpha.1` according to upstream, while newer source candidate is `0.1.0-alpha.7`, **not** published. Avoid ambiguous install commands on marketing page.
+**First contact:** authors of non-Wist languages and compiler researchers receive the Acme source; .NET users who need restricted formulas can immediately enter the Wist quickstart. The site is not a documentation portal or API simulator.
 
-## Visual research
+**Observed design research:** Gleam (identity with real code), Bun (clear category/action), Zig (specific engineering claims), Astro (fast product category), MLIR and Tree-sitter (precise technical exposition). These served as heuristic contrasts, not visual templates to copy.
 
-Five live pages reviewed on 2026-11-03: [Linear](https://linear.app), [Vercel](https://vercel.com), [Resend](https://resend.com), [Bun](https://bun.sh), [Turso](https://turso.tech). The references combine terse positioning, actual product interfaces and code, restrained type systems, strong hierarchy and credible documentation actions. Specific observed content: Bun prominently centers installation/real performance comparisons; Resend shows working SDK syntax; Turso foregrounds a concrete database-per-actor story/code; Linear illustrates its actual product, and Vercel organizes platform surfaces. Also examined public imagery of Bun/Astro homepages.
+**Source file map:**
+- \`readme.md\`: product split, public alpha versions and limits.
+- \`docs/CURRENT_ARCHITECTURE_STATUS.md\`: generic SDK implementation, exact plan, parity boundaries.
+- \`docs/language-authoring/{artifact-routing,contribution-planning}.md\`: type-compatible routes, diagnostics.
+- \`samples/Acme.PricingLanguage/Program.cs\`: selected parser/executor/compiled delegate routes.
+- \`docs/limitations.md\` and \`docs/alternatives.md\`: candid boundaries.
 
-**Chosen direction:** an engineering atlas: bold editorial typography plus a *domain-specific assembly schematic*, not marketing screenshots or code as decoration. No copied brand assets.
-
-## Alternative directions considered
-
-1. **Monochrome technical manifesto** — elegant but too little explanatory affordance for UT's distinctions.
-2. **Engineering atlas / assembly system** — chosen. Unique to module ownership and explicit plans; high explanatory power with low client JS.
-3. **Animated compiler laboratory** — visually dramatic but easy to fake execution/semantics and costly for mobile/a11y.
-
-Every external link in the site points to an actual upstream repository resource or a local anchor. The preferred docs link uses the upstream `docs/` tree for reliability independent of Pages availability.
+Site screenshots establish rendered composition, not source semantics. CI and integration checks establish bounded behavior, not visual originality or certified accessibility.

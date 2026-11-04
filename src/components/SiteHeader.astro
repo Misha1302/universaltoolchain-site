@@ -1,37 +1,30 @@
 ---
 const base = import.meta.env.BASE_URL;
+const upstream = "https://github.com/Misha1302/UniversalToolchain";
 ---
 <header class="site-header" data-site-header>
-  <div class="nav-shell page-container">
-    <a class="brand" href={base} aria-label="UniversalToolchain — home">
-      <svg class="brand-symbol" viewBox="0 0 43 43" fill="none" aria-hidden="true">
-        <rect x="2" y="2" width="16" height="16" fill="currentColor"/>
-        <rect x="25" y="2" width="16" height="16" stroke="currentColor" stroke-width="2"/>
-        <rect x="2" y="25" width="16" height="16" stroke="currentColor" stroke-width="2"/>
-        <rect x="25" y="25" width="16" height="16" fill="currentColor"/>
-        <path d="M18 10H25M10 18V25M18 33H25" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <span class="brand-wordmark">UNIVERSAL<span>TOOLCHAIN</span></span>
+  <div class="page-container nav-shell">
+    <a class="brand" href={base} aria-label="UT / UNIVERSAL TOOLCHAIN — homepage">
+      <span class="brand-glyph" aria-hidden="true">UT <span>/</span></span>
+      <span class="brand-name">UNIVERSAL<br />TOOLCHAIN</span>
     </a>
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href={base + "#concept"}>The idea</a>
-      <a href={base + "#architecture"}>Architecture</a>
-      <a href={base + "#use-cases"}>Explore</a>
-      <a href={base + "#code"}>In code</a>
+      <a href="#idea">The idea</a>
+      <a href="#example">The example</a>
+      <a href="#start">Get started</a>
+      <a href="#limits">Limitations</a>
     </nav>
     <div class="nav-actions">
-      <span class="nav-edition"><span class="status-pulse"></span>ALPHA / .NET</span>
-      <a class="nav-github" href="https://github.com/Misha1302/UniversalToolchain" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-      <button class="menu-toggle" type="button" aria-controls="mobile-navigation" aria-expanded="false" aria-label="Open navigation" data-menu-toggle>
-        <span></span><span></span>
-      </button>
+      <span class="nav-edition">EXPERIMENTAL / .NET</span>
+      <a class="nav-github" href={upstream} target="_blank" rel="noopener noreferrer">SOURCE <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-navigation" data-menu-toggle><span></span><span></span></button>
     </div>
   </div>
-  <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden data-mobile-nav>
-    <a href={base + "#concept"}>The idea <span>01</span></a>
-    <a href={base + "#architecture"}>Architecture <span>02</span></a>
-    <a href={base + "#use-cases"}>Explore <span>03</span></a>
-    <a href={base + "#code"}>In code <span>04</span></a>
-    <a href="https://github.com/Misha1302/UniversalToolchain">View GitHub <span>↗</span></a>
+  <nav class="mobile-navigation" id="mobile-navigation" aria-label="Mobile navigation" hidden data-mobile-nav>
+    <a href="#idea">The idea <span>01</span></a>
+    <a href="#example">The example <span>02</span></a>
+    <a href="#start">Get started <span>03</span></a>
+    <a href="#limits">Limitations <span>04</span></a>
+    <a href={upstream} target="_blank" rel="noopener noreferrer">View source on GitHub <span>↗</span></a>
   </nav>
 </header>

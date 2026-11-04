@@ -1,70 +1,109 @@
 import { expect, test } from "@playwright/test";
 
-test("accurate first screen and working page anchors", async ({ page }) => {
+const SOURCE_REV = "f362649872ca70cb924d5233eb965e3a71602015";
+const ORIGIN = "https://misha1302.github.io/universaltoolchain-site/";
+
+test("positioning, proof and canonical metadata are present on first screen", async ({ page }) => {
   await page.goto("./");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Languages,composed\./);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Compose thelanguage.Know whatruns./);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", ORIGIN);
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /og\.png$/);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://misha1302.github.io/universaltoolchain-site/");
-  await page.getByRole("link", { name: /Explore the architecture/i }).click();
-  await expect(page).toHaveURL(/#architecture$/);
-  await expect(page.getByRole("heading", { name: /One language/i })).toBeVisible();
+  await expect(page.locator(".hero-ledger")).toContainText("Acme.PricingLanguage");
+  await expect(page.locator(".hero-ledger")).toContainText("Func<decimal>");
+  await expect(page.locator(".hero-ledger")).toContainText("NOT CIL");
+  await expect(page.locator(".hero-ledger")).toContainText("NOT A BROWSER COMPILER");
+  await expect(page.locator(".hero-ledger a")).toHaveAttribute("href", new RegExp(SOURCE_REV));
+  await page.getByRole("link", { name: /Explore a real example/ }).click();
+  await expect(page).toHaveURL(/#example$/);
+  await expect(page.getByRole("heading", { name: /The plan is/i })).toBeVisible();
 });
 
-test("lifecycle and independent language route are operable", async ({ page }) => {
+test("single interactive inspector exposes both accurate routes with native radio keys", async ({ page }) => {
   await page.goto("./");
-  const compiler = page.getByRole("button", { name: /LanguageCompiler/ });
-  await compiler.click();
-  await expect(compiler).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("heading", { name: "Let the planner decide." })).toBeVisible();
-  const runtime = page.getByRole("button", { name: /LanguageRuntime/ });
-  await runtime.click();
-  await expect(page.getByRole("heading", { name: "Run only what was selected." })).toBeVisible();
-  await page.getByRole("button", { name: "Acme / SDK" }).click();
-  await expect(page.getByLabel("Acme pricing language typed routes")).toBeVisible();
-  await expect(page.getByLabel("Wist reference-language route")).toBeHidden();
+  const interpreter = page.getByRole("radio", { name: /Interpreter/ });
+  const compiled = page.getByRole("radio", { name: /Compiled/ });
+  await expect(interpreter).toBeChecked();
+  await expect(page.getByRole("list", { name: "Interpreter source-backed route" })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Compiled source-backed route" })).toBeHidden();
+  await compiled.check();
+  await expect(compiled).toBeChecked();
+  await expect(page.getByRole("list", { name: "Compiled source-backed route" })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Interpreter source-backed route" })).toBeHidden();
+  await expect(page.locator("[data-route-summary]")).toContainText("not Wist CIL");
+  await interpreter.focus();
+  await interpreter.press("ArrowRight");
+  await expect(compiled).toBeChecked();
+  await expect(page.locator("[data-route-summary]")).toContainText("Compiled:");
+  await compiled.press("ArrowLeft");
+  await expect(interpreter).toBeChecked();
 });
 
-test("code tabs support keyboard and copy", async ({ page, context }) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+test("no JavaScript still renders main content and shows a real backend choice", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto(ORIGIN.replace("https://misha1302.github.io", "http://localhost:4321"));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator(".hero-ledger")).toContainText("Acme.PricingLanguage");
+  await page.getByRole("radio", { name: /Compiled/ }).check();
+  await expect(page.getByRole("list", { name: "Compiled source-backed route" })).toBeVisible();
+  await context.close();
+});
+
+test("navigation, status and limitations connect to actual source", async ({ page }) => {
   await page.goto("./");
-  const wist = page.getByRole("tab", { name: /WIST/ });
-  await wist.focus();
-  await wist.press("ArrowRight");
-  const sdk = page.getByRole("tab", { name: /SDK/ });
-  await expect(sdk).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel", { name: /SDK/ })).toBeVisible();
-  await page.getByRole("button", { name: /Copy visible C sharp example/ }).click();
-  await expect(page.getByRole("status")).toHaveText(/copied/i);
-  const content = await page.evaluate(() => navigator.clipboard.readText());
-  expect(content).toContain("LanguageDefinitionBuilder");
+  await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Limitations" }).click();
+  await expect(page).toHaveURL(/#limits$/);
+  await expect(page.getByRole("heading", { name: /Structure is not a proof/ })).toBeVisible();
+  await expect(page.locator("#limits")).toContainText("No hardened in-process sandbox");
+  await expect(page.locator("#start")).toContainText("0.1.0-alpha.1");
+  await expect(page.locator("#start")).toContainText("0.1.0-alpha.7");
+  await expect(page.locator("#start")).toContainText("not on NuGet.org");
+  await expect(page.locator("#start")).toContainText("does not generate a grammar");
+  await page.locator(".diagnostic-note summary").click();
+  await expect(page.locator(".diagnostic-inner")).toContainText("hypothetical invalid configuration");
+  await expect(page.locator(".diagnostic-inner")).toContainText("UTL2207");
 });
 
-test("mobile menu, keyboard escape, no horizontal page overflow", async ({ page }) => {
-  for (const width of [320, 390, 768, 1440]) {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto("./");
-    const dimensions = await page.evaluate(() => ({
-      doc: document.documentElement.scrollWidth,
-      viewport: document.documentElement.clientWidth
-    }));
-    expect(dimensions.doc, "overflow at " + width).toBeLessThanOrEqual(dimensions.viewport + 1);
-  }
+test("mobile menu supports Escape, focus recovery, and working anchors", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("./");
-  const menu = page.getByRole("button", { name: "Open navigation" });
+  const menu = page.locator("[data-menu-toggle]");
   await menu.click();
-  await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeVisible();
+  const nav = page.getByRole("navigation", { name: "Mobile navigation" });
+  await expect(nav).toBeVisible();
+  await expect(menu).toHaveAttribute("aria-expanded", "true");
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeHidden();
+  await expect(nav).toBeHidden();
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
+  await expect(menu).toBeFocused();
+  await menu.click();
+  await nav.getByRole("link", { name: /Get started/i }).click();
+  await expect(nav).toBeHidden();
+  await expect(page).toHaveURL(/#start$/);
 });
 
-test("local asset links and JS are served without request failures", async ({ page }) => {
-  const failed: string[] = [];
-  page.on("requestfailed", (r) => failed.push(r.url()));
-  page.on("response", (r) => {
-    if (r.status() >= 400 && r.url().includes("127.0.0.1")) failed.push(r.status() + " " + r.url());
+test("no overflow at required widths or reduced-motion state", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const width of [320, 390, 768, 1440, 1920]) {
+    await page.setViewportSize({ width, height: width <= 390 ? 844 : 900 });
+    await page.goto("./");
+    const dims = await page.evaluate(() => ({
+      scroll: document.documentElement.scrollWidth,
+      client: document.documentElement.clientWidth
+    }));
+    expect(dims.scroll, "horizontal overflow at width " + width).toBeLessThanOrEqual(dims.client + 1);
+    await expect(page.locator(".action-primary")).toBeVisible();
+  }
+});
+
+test("local resources and interactions do not emit page or request errors", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", e => errors.push(e.message));
+  page.on("requestfailed", r => errors.push("request: " + r.url()));
+  page.on("response", r => {
+    if (r.status() >= 400 && r.url().includes("localhost")) errors.push(r.status() + " " + r.url());
   });
-  await page.goto("./");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  expect(failed).toEqual([]);
+  await page.goto("./", { waitUntil: "networkidle" });
+  await page.getByRole("radio", { name: /Compiled/ }).check();
+  expect(errors).toEqual([]);
 });

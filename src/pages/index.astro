@@ -1,152 +1,275 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
-import HeroDiagram from "../components/HeroDiagram.astro";
-import CompositionLab from "../components/CompositionLab.astro";
-import RouteExplorer from "../components/RouteExplorer.astro";
-import CodeWorkbench from "../components/CodeWorkbench.astro";
-const source = "https://github.com/Misha1302/UniversalToolchain";
-const docs = "https://github.com/Misha1302/UniversalToolchain/tree/master/docs";
+
+const upstream = "https://github.com/Misha1302/UniversalToolchain";
+const revision = "f362649872ca70cb924d5233eb965e3a71602015";
+const blob = upstream + "/blob/" + revision + "/";
+const source = blob + "samples/Acme.PricingLanguage/Program.cs";
+const authoring = blob + "docs/language-authoring/quickstart.md";
+const wist = blob + "docs/start/first-program.md";
+const limitations = blob + "docs/limitations.md";
+const alternatives = blob + "docs/alternatives.md";
+const routing = blob + "docs/language-authoring/artifact-routing.md";
+const compiler = blob + "UniversalToolchain/UniversalToolchain.LanguageSdk/LanguageCompiler.cs";
+const runtime = blob + "UniversalToolchain/UniversalToolchain.Runtime/LanguageRuntime.cs";
+const contributing = blob + "docs/CONTRIBUTING.md";
 ---
+
 <BaseLayout>
   <SiteHeader />
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
       <div class="page-container">
-        <div class="hero-prelude"><span class="eyebrow">OPEN SOURCE <span class="hero-pip">✳</span> .NET LANGUAGE INFRASTRUCTURE</span><span class="hero-side-mark">FRAMEWORK / 001</span></div>
-        <div class="hero-copy">
-          <div class="hero-heading-wrap">
-            <h1 id="hero-title">Languages,<br/><span>composed.</span></h1>
-            <span class="hero-asterisk" aria-hidden="true">✳</span>
-          </div>
-          <div class="hero-intro">
-            <div class="hero-intro-line" aria-hidden="true"></div>
-            <div>
-              <p class="hero-lead">Build a language implementation from independent parts — not a fixed compiler pipeline.</p>
-              <p class="hero-support">UniversalToolchain composes package-owned .NET features, typed transformations and backends into one deterministic, immutable plan.</p>
-              <div class="hero-ctas">
-                <a class="button button-primary" href="#architecture">Explore the architecture <span aria-hidden="true">↗</span></a>
-                <a class="button button-text" href={source} target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+        <div class="hero-edition">
+          <span>OPEN SOURCE <span class="meta-separator">/</span> .NET LANGUAGE INFRASTRUCTURE <span class="meta-separator">/</span> ALPHA</span>
+          <span class="hero-edition-no">UT—001 / COMPOSITION RECORD</span>
+        </div>
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <span class="chapter-index">01 <span>/</span> THE LANGUAGE BUILD RECORD</span>
+            <h1 id="hero-title">Compose the<br /><span class="headline-line">language.</span><br />Know what<br /><em>runs.</em></h1>
+            <div class="hero-copy-bottom">
+              <div class="lead-rule" aria-hidden="true"></div>
+              <p class="hero-lead">Build a language implementation from independently authored .NET components. UniversalToolchain resolves features, typed routes and backends into an inspectable plan—then binds the runtime to that selection.</p>
+              <p class="hero-clarity">Language configuration is a different problem from compiling a program.</p>
+              <div class="hero-actions">
+                <a class="action-primary" href="#example">Explore a real example <span aria-hidden="true">↗</span></a>
+                <a class="action-quiet" href={upstream} target="_blank" rel="noopener noreferrer">View source on GitHub <span aria-hidden="true">↗</span></a>
               </div>
+              <a class="wist-shortcut" href={wist} target="_blank" rel="noopener noreferrer"><span class="shortcut-mark" aria-hidden="true">↳</span> Need restricted formulas? <strong>Start with Wist</strong> <span aria-hidden="true">↗</span></a>
             </div>
           </div>
+
+          <figure class="hero-ledger" aria-labelledby="ledger-caption">
+            <div class="ledger-top">
+              <div>
+                <span class="ledger-brand">UT / LANGUAGE BUILD LEDGER</span>
+                <span class="ledger-top-sub">SPECIMEN NO. 001 <span>—</span> SOURCE-BACKED EXPLANATION</span>
+              </div>
+              <span class="ledger-serial" aria-hidden="true">01<span>/</span>02</span>
+            </div>
+            <div class="ledger-body">
+              <div class="ledger-metadata">
+                <div><span>LANGUAGE</span><strong>Acme.PricingLanguage</strong></div>
+                <div><span>FEATURE</span><code>acme.pricing.core</code></div>
+                <div><span>ENTRY ARTIFACT</span><code>SourceText&lt;string&gt;</code></div>
+              </div>
+              <div class="ledger-divider-label"><span>01 / RESOLVED ARTIFACT</span><span>ONE PARSER</span></div>
+              <div class="ledger-artifact"><span class="ledger-artifact-id">acme.pricing.parse</span><strong>PricingExpression</strong><span class="ledger-small-arrow" aria-hidden="true">↗</span></div>
+              <div class="ledger-divider-label ledger-routes-label"><span>02 / BACKEND-SPECIFIC ROUTES</span><span>TWO EXECUTORS</span></div>
+              <div class="ledger-route-stack">
+                <div class="ledger-route">
+                  <div class="route-number">01</div>
+                  <div><span class="route-kind">INTERPRETER</span><strong>PricingExpression <span aria-hidden="true">→</span> result</strong></div>
+                  <span class="route-check" aria-hidden="true">↗</span>
+                </div>
+                <div class="ledger-route ledger-route-compiled">
+                  <div class="route-number">02</div>
+                  <div><span class="route-kind">COMPILED <span>/ DELEGATE, NOT CIL</span></span><strong>PricingExpression <span aria-hidden="true">→</span> Func&lt;decimal&gt; <span aria-hidden="true">→</span> result</strong></div>
+                  <span class="route-check" aria-hidden="true">↗</span>
+                </div>
+              </div>
+              <div class="ledger-result"><span>LOCAL SAMPLE OUTPUT</span><strong>35.0 <span>:</span> 35.0</strong></div>
+              <div class="ledger-source"><a href={source} target="_blank" rel="noopener noreferrer"><span class="source-arrow" aria-hidden="true">↗</span> INSPECT THE SOURCE RECORD</a><span>Program.cs / PINNED</span></div>
+            </div>
+            <figcaption class="ledger-caption" id="ledger-caption">NOT A BROWSER COMPILER. A source-backed illustration from the independent Acme example; no .NET compilation happens here.</figcaption>
+          </figure>
         </div>
-        <HeroDiagram />
-        <div class="hero-postlude"><span>DESIGNED FOR LANGUAGE AUTHORS / COMPILER BUILDERS / .NET DEVELOPERS</span><a href="#concept">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-baseline"><span>THE DECISION IS THE DESIGN.</span><span>SCROLL TO INSPECT THE PLAN <span aria-hidden="true">↓</span></span></div>
       </div>
     </section>
 
-    <section class="section concept-section" id="concept" aria-labelledby="concept-title">
+    <section class="section distinction" id="idea" aria-labelledby="idea-title">
       <div class="page-container">
-        <div class="section-eyebrow"><span class="eyebrow eyebrow-dark"><span class="section-index">01</span> &nbsp; / &nbsp; THE PROBLEM</span><span>WHY THIS FRAMEWORK EXISTS</span></div>
-        <div class="concept-main">
-          <h2 id="concept-title">A pipeline is easy<br/>to hardcode.<br/><em>An ecosystem isn't.</em></h2>
-          <div class="concept-intro">
-            <p>Most compilers know their parts at build time. That's often exactly right.</p>
-            <p>But when packages independently contribute language features, passes and execution paths, someone has to resolve their contracts, dependencies, ownership and order.</p>
-            <div class="concept-accent"><span class="concept-line" aria-hidden="true"></span> UT makes that decision explicit, inspectable and reproducible.</div>
+        <div class="section-topline"><span>01 / THE DISTINCTION</span><span>ONE LANGUAGE / TWO DIFFERENT CLOCKS</span></div>
+        <div class="distinction-head">
+          <h2 id="idea-title">Before a program runs,<br /><em>its language has to be chosen.</em></h2>
+          <div class="distinction-body">
+            <p>A fixed compiler pipeline can wire its stages once. When independent packages contribute features, transformations and backends, someone must decide which components fit together.</p>
+            <p>UT resolves declared dependencies, ownership, ordering and typed routes before program input arrives. It produces an inspectable plan—or diagnostics when the pieces do not fit.</p>
           </div>
         </div>
-        <div class="concept-principles" aria-label="Why composition matters">
-          <div class="principle"><span>01 /</span><h3>Declare</h3><p>Features and contributions live with the packages that own them.</p></div>
-          <div class="principle"><span>02 /</span><h3>Resolve</h3><p>Typed routes, dependencies and conflicts meet a single planner.</p></div>
-          <div class="principle"><span>03 /</span><h3>Materialize</h3><p>The runtime binds the exact selected implementations, not a new guess.</p></div>
+        <div class="two-clocks" aria-label="Language configuration and program execution are separate processes">
+          <div class="clock-track">
+            <div class="clock-title"><span class="clock-id">A</span><div><strong>LANGUAGE CONFIGURATION</strong><small>CHOOSE THE IMPLEMENTATION / ONCE</small></div></div>
+            <ol class="clock-steps">
+              <li>Packages <span>+</span> Definition</li>
+              <li>LanguageCompiler</li>
+              <li>LanguagePlan</li>
+              <li>LanguageRuntime</li>
+            </ol>
+          </div>
+          <div class="clock-track clock-track-inverted">
+            <div class="clock-title"><span class="clock-id">B</span><div><strong>PROGRAM EXECUTION</strong><small>FOLLOW THE SELECTED ROUTE / PER INPUT</small></div></div>
+            <ol class="clock-steps">
+              <li>Input artifact</li>
+              <li>Typed transforms</li>
+              <li>Selected executor</li>
+              <li>Result</li>
+            </ol>
+          </div>
         </div>
-        <p class="concept-footnote">If you only need a fixed parser and one backend, a handwritten pipeline is probably simpler. UT is for the composition problem.</p>
+        <div class="distinction-foot">
+          <p><strong>Structural validation ≠ semantic proof.</strong> An accepted plan does not certify an optimizer's meaning or a plugin's safety.</p>
+          <span>READ THE IMPLEMENTATION <a href={compiler} target="_blank" rel="noopener noreferrer">LanguageCompiler.cs ↗</a> <a href={runtime} target="_blank" rel="noopener noreferrer">LanguageRuntime.cs ↗</a></span>
+        </div>
       </div>
     </section>
 
-    <CompositionLab />
-
-    <section class="section usecases-section" id="use-cases" aria-labelledby="paths-title">
+    <section class="section example-section" id="example" aria-labelledby="example-title">
       <div class="page-container">
-        <div class="section-heading paths-heading">
-          <div><div class="eyebrow eyebrow-dark"><span class="section-index">03</span> &nbsp; / &nbsp; TWO WAYS IN</div><h2 id="paths-title">Start small.<br/><em>Go structural.</em></h2></div>
-          <p>UT is an infrastructure project, but it has two concrete entry points. Choose the one that fits what you're building.</p>
+        <div class="section-topline"><span>02 / THE EVIDENCE</span><span>INDEPENDENT LANGUAGE / REAL REPOSITORY SAMPLE</span></div>
+        <div class="example-intro">
+          <div>
+            <span class="chapter-index">CASE STUDY / ACME.PRICINGLANGUAGE</span>
+            <h2 id="example-title">The plan is<br /><em>not a metaphor.</em></h2>
+          </div>
+          <div class="example-desc">
+            <p>Acme is a small, independent pricing language written with the generic authoring SDK. It defines its own syntax, parser and two backend executors. Only one route needs an additional transformation.</p>
+            <a class="text-arrow-link" href={source} target="_blank" rel="noopener noreferrer">Examine the full Acme source <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-        <div class="path-grid">
+        <div class="inspector" data-inspector>
+          <div class="inspector-header">
+            <div class="inspector-identity"><span class="inspector-mark">UT <span>/</span> ROUTE INSPECTOR</span><span class="inspector-sub">LANGUAGE ID: ACME.PRICINGLANGUAGE <span class="dot">·</span> SOURCE FIXTURE</span></div>
+            <fieldset class="route-switch">
+              <legend>SELECT AN EXPLAINED BACKEND</legend>
+              <div class="route-options">
+                <label><input type="radio" name="backend" value="interpreter" checked data-backend-choice /><span><b>01</b> Interpreter</span></label>
+                <label><input type="radio" name="backend" value="compiled" data-backend-choice /><span><b>02</b> Compiled</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="inspector-main">
+            <aside class="inspector-provenance">
+              <span class="inspector-column-label">A / DECLARED</span>
+              <dl>
+                <div><dt>PACKAGE</dt><dd>Acme.PricingLanguage <small>1.0.0 — sample identity</small></dd></div>
+                <div><dt>FEATURE</dt><dd><code>acme.pricing.core</code></dd></div>
+                <div><dt>ENTRY</dt><dd><code>SourceText&lt;string&gt;</code></dd></div>
+                <div><dt>ENABLED</dt><dd>interpreter, compiled</dd></div>
+                <div><dt>POLICY</dt><dd><code>RequireDeterminism</code></dd></div>
+              </dl>
+              <div class="provenance-footer"><span>DECLARATIONS IN</span><a href={source} target="_blank" rel="noopener noreferrer">Program.cs ↗</a></div>
+            </aside>
+            <div class="inspector-path">
+              <span class="inspector-column-label">B / TYPE-COMPATIBLE ROUTE</span>
+              <div class="path-origin">
+                <span>INPUT / SOURCE</span>
+                <strong>SourceText<span>&lt;string&gt;</span></strong>
+              </div>
+              <div class="path-connector"><span class="connector-label">TRANSFORM / acme.pricing.parse</span></div>
+              <div class="path-artifact">
+                <span>ARTIFACT / CUSTOM SYNTAX</span>
+                <strong>PricingExpression</strong>
+                <small>Acme-owned record, not Wist IR</small>
+              </div>
+              <div class="path-branches">
+                <ol class="route-path route-interpreter" aria-label="Interpreter source-backed route">
+                  <li class="path-direct"><span>DIRECT / NO ADDITIONAL TRANSFORM</span></li>
+                  <li class="path-terminal"><span>EXECUTOR / acme.pricing.interpreter</span><strong>Interpreter <span aria-hidden="true">↗</span></strong><small>PricingExpression.Evaluate() returns a decimal</small></li>
+                </ol>
+                <ol class="route-path route-compiled" aria-label="Compiled source-backed route">
+                  <li class="path-transform"><span>TRANSFORM / acme.pricing.compile</span><strong>Func&lt;decimal&gt;</strong><small>PricingExpression.Compile() → delegate</small></li>
+                  <li class="path-terminal"><span>EXECUTOR / acme.pricing.compiled</span><strong>Compiled <span aria-hidden="true">↗</span></strong><small>Invokes the delegate; not Wist CIL emission</small></li>
+                </ol>
+              </div>
+              <p class="path-explanation" aria-live="polite" data-route-summary>Interpreter: SourceText → PricingExpression → interpreter executor. The browser is only showing a source-backed route.</p>
+            </div>
+            <aside class="inspector-reading">
+              <span class="inspector-column-label">C / THE READING</span>
+              <div class="reading-major"><span>SELECTED STRUCTURE</span><strong>ONE</strong><span>immutable language plan</span></div>
+              <p>Both backend routes are recorded at language-configuration time. The runtime binds components selected by the plan; it does not choose another pipeline.</p>
+              <div class="reading-caveat"><span>IMPORTANT</span><p>These are declared structural contracts. UT does not prove arbitrary extension semantics or safety.</p></div>
+            </aside>
+          </div>
+          <div class="inspector-outcome">
+            <div class="outcome-number"><span>SOURCE SAMPLE OUTPUT</span><strong>35.0 <i>:</i> 35.0</strong></div>
+            <p>Reproduced once in a local .NET 10 source build, 4 Nov 2026. Not a benchmark, browser result, or proof of universal backend parity.</p>
+          </div>
+          <div class="inspector-bottom"><span>PRE-AUTHORED EXPLANATION <span>/</span> NOT A BROWSER COMPILER</span><a href={routing} target="_blank" rel="noopener noreferrer">READ THE TYPED ROUTE CONTRACT <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <details class="diagnostic-note">
+          <summary><span>What if the components don't fit?</span><span class="summary-icon" aria-hidden="true">+</span></summary>
+          <div class="diagnostic-inner"><span class="diagnostic-code">UTL2207 / AMBIGUOUS ROUTE</span><p>The planner can reject multiple fully feasible, equally priced routes when no explicit preference exists. This is a separate <strong>hypothetical invalid configuration</strong>, not a failure observed in Acme.</p><a href={blob + "docs/language-authoring/contribution-planning.md"} target="_blank" rel="noopener noreferrer">See planning diagnostics ↗</a></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section paths-section" id="start" aria-labelledby="paths-title">
+      <div class="page-container">
+        <div class="section-topline"><span>03 / TWO STARTING POINTS</span><span>ONE FRAMEWORK / DIFFERENT PROBLEMS</span></div>
+        <div class="paths-top">
+          <h2 id="paths-title">Use a language.<br /><em>Or author one.</em></h2>
+          <p>Start from a restricted formula in an application—or assemble an entirely different language from independent, typed contributions. Neither route is a shortcut to a full language workbench.</p>
+        </div>
+        <div class="paths-grid">
           <article class="path-wist">
-            <div class="path-top"><span class="path-number">PATH 01 / WIST</span><span class="path-signature">f(x) → T</span></div>
-            <div class="wist-expression" aria-label="Example Wist formula">usage <span>*</span> 0.7 <span>+</span><br/> reliability <span>*</span> 0.3</div>
-            <div class="path-copy"><h3>Controlled formulas.<br/>Typed results.</h3><p>Wist is UT's reference language and the approachable .NET API. Validate restricted expressions, inspect diagnostics, compile approved formulas into typed delegates.</p></div>
-            <a class="path-link" href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/start/first-program.md" target="_blank" rel="noopener noreferrer">Try the Wist quickstart <span aria-hidden="true">↗</span></a>
+            <div class="path-section-mark"><span>PATH / 01</span><span>REFERENCE LANGUAGE</span></div>
+            <div class="wist-formula" aria-label="Illustrative Wist formula">usage <span>*</span> 0.7 <span>+</span> reliability <span>*</span> 0.3</div>
+            <h3>Embed restricted<br />formulas.</h3>
+            <p>Wist validates constrained expressions, reports diagnostics and compiles approved formulas to typed .NET delegates. Your host still owns authorization, side effects and isolation.</p>
+            <div class="alpha-footnote"><strong>ALPHA RELEASE BOUNDARY</strong><span>Published NuGet: 0.1.0-alpha.1<br />Current source candidate: 0.1.0-alpha.7 (not on NuGet.org).</span></div>
+            <a class="path-cta" href={wist} target="_blank" rel="noopener noreferrer">Wist quickstart <span aria-hidden="true">↗</span></a>
           </article>
           <article class="path-sdk">
-            <div class="path-top"><span class="path-number">PATH 02 / AUTHORING SDK</span><span class="path-signature">A → B → C</span></div>
-            <div class="sdk-language-art" aria-hidden="true">
-              <div class="sdk-art-cell"><span>source</span><b>Text</b></div>
-              <div class="sdk-art-arrow">↗</div>
-              <div class="sdk-art-cell sdk-art-main"><span>your syntax</span><b>PricingExpr.</b></div>
-              <div class="sdk-art-arrow">↗</div>
-              <div class="sdk-art-cell"><span>executor</span><b>Backend</b></div>
+            <div class="path-section-mark"><span>PATH / 02</span><span>INDEPENDENT LANGUAGE AUTHORING</span></div>
+            <div class="sdk-typographic"><span>source.text</span><b>→</b><span>your.syntax</span><b>→</b><span>your.backend</span></div>
+            <h3>Author the language<br />itself.</h3>
+            <p>Define syntax artifacts, transformers, passes and backend executors as typed package contributions. The low-level alpha SDK does not require Wist's AST, Bytecode or AIR—and does not generate a grammar for you.</p>
+            <div class="sdk-code">
+              <span class="code-kicker">AN ACTUAL API FROM ACME / C# EXCERPT</span>
+              <pre tabindex="0" role="region" aria-label="Acme SDK C sharp code excerpt"><code>var syntax = new LanguageArtifactKind&lt;PricingExpression&gt;(
+    "acme.pricing.syntax");</code></pre>
+              <a href={source} target="_blank" rel="noopener noreferrer">Verify in Program.cs ↗</a>
             </div>
-            <div class="path-copy"><h3>Your language.<br/>Your representations.</h3><p>The low-level alpha SDK lets independent packages define artifact types, transformations and backend executors. It does not require Wist's AST or IR.</p></div>
-            <a class="path-link" href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/language-authoring/quickstart.md" target="_blank" rel="noopener noreferrer">Explore language authoring <span aria-hidden="true">↗</span></a>
+            <a class="path-cta" href={authoring} target="_blank" rel="noopener noreferrer">Language authoring quickstart <span aria-hidden="true">↗</span></a>
           </article>
         </div>
-        <RouteExplorer />
       </div>
     </section>
 
-    <CodeWorkbench />
-
-    <section class="section contracts-section" id="principles" aria-labelledby="contracts-title">
+    <section class="section boundaries" id="limits" aria-labelledby="limits-title">
       <div class="page-container">
-        <div class="contracts-header"><div class="eyebrow"><span class="section-index">05</span> &nbsp; / &nbsp; DESIGN PRINCIPLES</div><h2 id="contracts-title">Built for composition.<br/><em>Not hidden coupling.</em></h2></div>
-        <div class="contract-row">
-          <span class="contract-no">[01]</span><h3>Typed boundaries</h3><p>Transformations advertise input and output artifact contracts. The planner can reject structurally incompatible routes before execution.</p><span class="contract-symbol" aria-hidden="true">A→B</span>
-        </div>
-        <div class="contract-row">
-          <span class="contract-no">[02]</span><h3>Deterministic planning</h3><p>Declared ownership, dependencies, pass ordering and route costs resolve to one repeatable language configuration — or explicit diagnostics.</p><span class="contract-symbol" aria-hidden="true">∴</span>
-        </div>
-        <div class="contract-row">
-          <span class="contract-no">[03]</span><h3>Exact materialization</h3><p>The runtime validates plan provenance and activates selected components, rather than inventing a second pipeline.</p><span class="contract-symbol" aria-hidden="true">⊟</span>
-        </div>
-        <div class="contract-row">
-          <span class="contract-no">[04]</span><h3>Backend-aware routes</h3><p>The interpreter and CIL paths are real in Wist. Generic authoring also supports its own executors; equivalence is a tested contract, not a universal guarantee.</p><span class="contract-symbol" aria-hidden="true">⥱</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section status-section" id="status" aria-labelledby="status-title">
-      <div class="page-container status-layout">
-        <div class="status-intro">
-          <div class="eyebrow eyebrow-dark"><span class="section-index">06</span> &nbsp; / &nbsp; CURRENT REALITY</div>
-          <h2 id="status-title">Early by design.<br/><em>Clear about it.</em></h2>
-          <p>UniversalToolchain is alpha software. The planner and runtime contracts are concrete; the higher-level authoring experience is still evolving.</p>
-          <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/limitations.md" target="_blank" rel="noopener noreferrer" class="status-link">Read known limitations <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="status-facts">
-          <div><span class="status-state"><i class="state-circle"></i> IMPLEMENTED</span><p>Package-owned contributions, typed routes, immutable plans, exact runtime selection, Wist interpreter/CIL.</p></div>
-          <div><span class="status-state"><i class="state-circle"></i> ALPHA SURFACE</span><p>External Language Authoring SDK, templates and current source Wist API. Public stable 1.0 guarantees are not offered.</p></div>
-          <div><span class="status-state status-research"><i class="state-circle"></i> RESEARCH / FUTURE</span><p>Richer grammar authoring, semantic evidence exchange and expanded backend validation remain directions, not shipped promises.</p></div>
-          <div class="status-warning"><span>IMPORTANT BOUNDARY ↗</span><p>Structural planning does not prove third-party optimizer correctness, security of hostile code, or universal backend parity.</p></div>
+        <div class="section-topline"><span>04 / CURRENT REALITY</span><span>EXPLICIT LIMITS ARE A FEATURE OF TRUST</span></div>
+        <div class="boundaries-layout">
+          <div class="boundaries-glyph" aria-hidden="true">≠</div>
+          <div class="boundaries-copy">
+            <h2 id="limits-title">Structure<br /><em>is not a proof.</em></h2>
+            <p class="boundaries-lead">UT checks declared dependencies, ownership, typed routes and selected runtime implementations. It doesn't establish the semantic correctness, performance or safety of arbitrary extensions.</p>
+            <div class="boundaries-list">
+              <div><span>AVAILABLE TODAY</span><p>Typed plans and routes, exact runtime binding, Wist interpreter/CIL paths, external language authoring at low level.</p></div>
+              <div><span>ALPHA / EVOLVING</span><p>Public APIs may change. High-level grammar and type-system authoring aren't provided. The newest Wist source candidate is not the published NuGet package.</p></div>
+              <div><span>NOT A PROMISE</span><p>No hardened in-process sandbox. No universal backend parity. No general optimizer semantic proof.</p></div>
+            </div>
+            <p class="boundaries-fit">If all you need is a fixed parser and one backend, a handwritten pipeline may be the better choice. UT becomes relevant when independently owned contributions and alternative routes require explicit resolution.</p>
+            <div class="boundaries-links"><a href={limitations} target="_blank" rel="noopener noreferrer">Known limitations <span aria-hidden="true">↗</span></a><a href={alternatives} target="_blank" rel="noopener noreferrer">Compare alternatives <span aria-hidden="true">↗</span></a></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="closing-section" aria-labelledby="closing-title">
-      <div class="page-container closing-layout">
-        <div class="closing-eye">UT / OPEN SOURCE / APACHE-2.0 <span>✳</span></div>
-        <h2 id="closing-title">Build languages<br/><em>out of parts.</em></h2>
-        <p>Explore the source, run Wist, or start authoring an independent language. The framework is being built in the open.</p>
-        <div class="closing-actions">
-          <a href={source} target="_blank" rel="noopener noreferrer" class="closing-main">Explore on GitHub <span aria-hidden="true">↗</span></a>
-          <a href={docs} target="_blank" rel="noopener noreferrer" class="closing-second">Read documentation <span aria-hidden="true">↗</span></a>
+    <section class="closing" id="explore" aria-labelledby="closing-title">
+      <div class="page-container closing-content">
+        <div class="closing-head"><span>05 / BUILT IN THE OPEN</span><span>UNIVERSAL TOOLCHAIN / .NET</span></div>
+        <h2 id="closing-title">Inspect the code.<br /><em>Build the next piece.</em></h2>
+        <p>Read the implementation behind the diagrams, run the independent language example, or try Wist in your own .NET environment. Every architectural claim here should lead somewhere you can verify.</p>
+        <a class="closing-primary" href={upstream} target="_blank" rel="noopener noreferrer">Explore UniversalToolchain on GitHub <span aria-hidden="true">↗</span></a>
+        <div class="closing-secondary">
+          <a href={source} target="_blank" rel="noopener noreferrer">Run the Acme example ↗</a>
+          <a href={wist} target="_blank" rel="noopener noreferrer">Wist quickstart ↗</a>
+          <a href={authoring} target="_blank" rel="noopener noreferrer">Language Authoring SDK ↗</a>
+          <a href={contributing} target="_blank" rel="noopener noreferrer">Contribute ↗</a>
         </div>
       </div>
     </section>
   </main>
   <footer class="site-footer">
     <div class="page-container footer-layout">
-      <div class="footer-brand"><span>UT<span class="footer-glyph">✳</span></span><p>A modular .NET compiler and runtime framework.</p></div>
-      <div class="footer-links">
-        <a href={source}>Repository ↗</a>
-        <a href={docs}>Documentation ↗</a>
-        <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/docs/CONTRIBUTING.md">Contribute ↗</a>
-        <a href="https://github.com/Misha1302/UniversalToolchain/blob/master/LICENSE">Apache-2.0 ↗</a>
-      </div>
-      <div class="footer-end">MADE TO BE COMPOSED. <span>© 2026 UT</span></div>
+      <div class="footer-logo">UT <span>/</span></div>
+      <p>UNIVERSAL TOOLCHAIN <span>—</span> EXPERIMENTAL .NET LANGUAGE INFRASTRUCTURE</p>
+      <div class="footer-info"><a href={upstream + "/blob/" + revision + "/LICENSE"} target="_blank" rel="noopener noreferrer">APACHE-2.0 ↗</a><span>SPECIMEN REV <a href={upstream + "/commit/" + revision} target="_blank" rel="noopener noreferrer">{revision.slice(0, 12)}</a></span></div>
     </div>
   </footer>
   <script>

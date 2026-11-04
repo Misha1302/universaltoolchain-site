@@ -8,7 +8,9 @@ export default defineConfig({
     ...devices["Desktop Chrome"],
     baseURL: "http://localhost:4321/universaltoolchain-site/",
     launchOptions: {
-      executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ?? "/usr/bin/chromium-browser"
+      ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
+        ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
+        : process.env.CI ? {} : { executablePath: "/usr/bin/chromium-browser" })
     },
     trace: "retain-on-failure"
   },

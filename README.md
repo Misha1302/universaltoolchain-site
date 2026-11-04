@@ -1,42 +1,56 @@
-# UniversalToolchain — product website
+# UniversalToolchain website — Planprint
 
-The official product/marketing landing page for [UniversalToolchain](https://github.com/Misha1302/UniversalToolchain). This is **not** the documentation site; its links point to the upstream documentation and code.
+The English-language product website for [UniversalToolchain](https://github.com/Misha1302/UniversalToolchain). This repository contains only the website: **it does not contain or modify the UniversalToolchain compiler/runtime**.
 
-Built with Astro, TypeScript, handwritten CSS, self-hosted OFL fonts, and small progressive-enhancement interactions. Static output targets GitHub Pages at `/universaltoolchain-site/`.
+**Live site:** https://misha1302.github.io/universaltoolchain-site/
 
-## Develop
+## Purpose and source of truth
 
-```bash
+**Compose the language. Know what runs.** The site explains how independently authored .NET language contributions are resolved into a typed, deterministic language plan, and uses the independent Acme.PricingLanguage example as the central proof. Wist is a separate first-contact path for restricted formulas.
+
+Technical claims, source links and the example ledger are pinned to upstream SHA:
+
+\`f362649872ca70cb924d5233eb965e3a71602015\`
+
+Before changing architecture claims, confirm this commit still reflects the intended upstream state. The *compiled* Acme backend produces a \`Func<decimal>\` delegate; it does **not** demonstrate Wist CIL emission. A browser route switch displays pre-authored descriptions; it never executes .NET.
+
+Do not claim formal optimizer correctness, sandboxing, universal backend equivalence, a stable 1.0 API or unpublished NuGet releases.
+
+## Stack
+
+- Astro 7 with static GitHub Pages output at \`/universaltoolchain-site/\`
+- Handwritten responsive CSS, small TypeScript enhancement for menu and assistive status updates
+- Self-hosted IBM Plex Sans, IBM Plex Sans Condensed and IBM Plex Mono (licensed under OFL)
+- Native accessible backend radios, semantic diagrams and an optional disclosure
+- Playwright browser tests and responsive evidence captures
+
+## Work on the site
+
+\`\`\`sh
 npm ci
 npm run dev
 npm run check
 npm run lint
 npm run build
 npm test
-```
+\`\`\`
 
-Playwright tests use `/usr/bin/chromium-browser` by default. Override with `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if needed. Run `npx playwright install chromium` if the browser is missing.
+Playwright defaults to \`/usr/bin/chromium-browser\` for the connected Fedora machine. Set \`PLAYWRIGHT_CHROMIUM_EXECUTABLE\` to a local Chromium path or run \`npx playwright install chromium\` in CI.
 
-## Architecture
+## Files
 
-- `src/pages/index.astro` — one focused editorial landing page.
-- `src/layouts/BaseLayout.astro` — document shell / SEO.
-- `src/components/` — brand/navigation, architecture diagrams, source examples.
-- `src/scripts/site.ts` — keyboard-aware interactions; no client framework.
-- `src/styles/global.css` — design system and responsive layouts.
-- `DESIGN_CONTRACT.md`, `RESEARCH_NOTES.md`, `QA_REPORT.md` — design/evidence/review.
-- `.github/workflows/deploy.yml` — build validation and GitHub Pages release.
-
-## Source of truth
-
-Architecture and code examples were checked against UT upstream commit `5626a5e7fdd1c5d85158fab21752ef74c34926a3` (2026-11-01). Recheck before making future API/version claims. The diagrams and lifecycle explorer are **conceptual visualizations**, not a browser-hosted compiler or actual plan generator.
+- \`src/pages/index.astro\`: six-scene product story, pinned sources and source-accurate Acme artifact routes
+- \`src/components/SiteHeader.astro\`: responsive keyboard-accessible menu
+- \`src/styles/global.css\`: Planprint typography, layout, and responsive treatments
+- \`src/scripts/site.ts\`: progressive enhancement only (no simulated compiler)
+- \`src/layouts/BaseLayout.astro\`: canonical URL, social metadata, self-hosted fonts
+- \`tests/\`: user flows, no-JS, reduced motion and 5-viewport screenshot checks
+- \`evidence/planprint-*.png\`: genuine local Chromium captures from this implementation
+- \`scripts/live-audit.mjs\`: read-only visual/functional audit of published GitHub Pages
+- \`DESIGN_CONTRACT.md\` and \`QA_REPORT.md\`: design and validation boundaries
 
 ## Release
 
-Push to `main`; GitHub Actions validates, builds and deploys via the official Astro action. Pages source must be `GitHub Actions`. No secrets are used by the static site.
+Push to **\`main\` of this website repository only**. The GitHub Actions workflow validates/builds and deploys to Pages. Check the production URL after deployment; a successful local build does not establish a successful public release.
 
-UniversalToolchain upstream is Apache-2.0. Original website content is provided under Apache-2.0; fonts are licensed by their respective SIL Open Font Licenses.
-
-## Verify the published site
-
-After a Pages deploy, run `node scripts/live-audit.mjs` on Fedora with Chromium. It exercises all five production viewports, links, interactive diagrams, copy and keyboard menu, saves screenshot evidence, and writes `evidence/live-qa.json`. The public URL is configured in the script; adapt `executablePath` for other operating systems. The first release and production QA results are in `QA_REPORT.md`.
+This site is under Apache-2.0. Fonts retain their own licenses.

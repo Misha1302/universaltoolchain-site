@@ -1,9 +1,18 @@
 ---
-import "@fontsource-variable/space-grotesk";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-sans-condensed/500.css";
+import "@fontsource/ibm-plex-sans-condensed/600.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
 import "../styles/global.css";
-const { title = "UniversalToolchain — Languages, composed.", description = "A modular .NET framework for composing language implementations from independently packaged features, typed transformations and deterministic plans." } = Astro.props;
+
+const {
+  title = "UniversalToolchain — Compose the language. Know what runs.",
+  description = "Experimental .NET language infrastructure: resolve independently authored features, typed artifact routes, and backends into one inspectable plan."
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(base.endsWith("/") ? base : base + "/", Astro.site).href;
 const social = new URL(base + "og.png", Astro.site).href;
@@ -13,7 +22,7 @@ const social = new URL(base + "og.png", Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#101714" />
+    <meta name="theme-color" content="#f3f1ea" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -24,7 +33,7 @@ const social = new URL(base + "og.png", Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={social} />
-    <meta property="og:image:alt" content="UniversalToolchain — Languages, composed. Connected language modules." />
+    <meta property="og:image:alt" content="UniversalToolchain Planprint: Compose the language. Know what runs. A language build ledger for Acme." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
